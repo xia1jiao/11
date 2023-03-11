@@ -12,7 +12,7 @@ from model import resnet152
 app = Flask(__name__)
 CORS(app)  # 解决跨域问题
 
-weights_path = "./resNet152.pth"
+weights_path = "./../resNet152.pth"
 class_json_path = "./class_indices.json"
 assert os.path.exists(weights_path), "weights path does not exist..."
 assert os.path.exists(class_json_path), "class json path does not exist..."
@@ -54,7 +54,7 @@ def get_prediction(image_bytes):
         index_pre = [(class_indict[str(index)], float(p)) for index, p in enumerate(prediction)]
         # sort probability
         index_pre.sort(key=lambda x: x[1], reverse=True)
-        text = [template.format(k, v) for k, v in index_pre]
+        text = [template.format(k, v) for k, v in index_pre][:8]
         return_info = {"result": text}
     except Exception as e:
         return_info = {"result": [str(e)]}
